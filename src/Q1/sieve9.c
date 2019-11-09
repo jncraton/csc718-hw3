@@ -49,7 +49,7 @@ int main (int argc, char *argv[])
   exit (1);
  }
 
- n = atoi(argv[1]);
+ n = atol(argv[1]);
 
  /* find how many elements are assigned to this process */
  low_value = 2 + BLOCK_LOW(id,p,n-1);
