@@ -99,10 +99,10 @@ int main (int argc, char *argv[])
  } while (prime * prime <= sqrtN);
 
  // Split into blocks to make use of cache locality
- int blocksize = 1024 * 128 * 2 / sizeof(int);
+ int blocksize = 1024 * 128 / sizeof(int);
  int block_start = 0;
  for (low_value; low_value <= high_value; low_value+=blocksize) {
-   index = 1;
+   index = 2;
    prime = 3;
    int inner_size = high_value - low_value;
    if (inner_size > blocksize) inner_size = blocksize;
@@ -114,12 +114,14 @@ int main (int argc, char *argv[])
      if (!(low_value % prime)) first = 0;
      else first = prime - (low_value % prime);
     }
-    for (i = first; i <= inner_size; i += prime<<1) marked[(i+block_start)>>1] = 1;
+    if (!(first % 2)) first += prime;
+    for (i = first; i <= inner_size; i += prime*2) {
+      marked[(i+block_start)>>1] = 1;
+    }
   
-    while (sieves[index]) index ++;
+    while (sieves[index]) index++;
     prime = (index<<1) + 1;
     index += 1;
-  
    } while (prime * prime <= n);
   
    block_start += blocksize;
