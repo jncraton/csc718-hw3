@@ -23,8 +23,8 @@ int main (int argc, char *argv[])
  int id;		/* this process id	*/
  int index;		/* index of the current sieve	*/
  int low_value;	/* lowest value assigned to this process */
- int *marked;		/* array elements to be  marked	*/
- int *sieves;		/* array of sieving primes from k -> sqrt(n)	*/
+ char *marked;		/* array elements to be  marked	*/
+ char *sieves;		/* array of sieving primes from k -> sqrt(n)	*/
  int n;		/* value of the largest number	*/
  int sqrtN;		/* square root of n	*/
  int p; 		/* number of processes		*/
@@ -67,8 +67,8 @@ int main (int argc, char *argv[])
   exit (1);
  }
 
- marked = (int *) malloc (size * sizeof(int));
- sieves = (int *) malloc ((sqrtN) * sizeof(int));
+ marked = (char *) malloc (size * sizeof(char));
+ sieves = (int *) malloc ((sqrtN) * sizeof(char));
 
  if ((marked == NULL) || (sieves == NULL))
  {
@@ -100,7 +100,7 @@ int main (int argc, char *argv[])
  } while (prime * prime <= sqrtN);
 
  // Split into blocks to make use of cache locality
- int blocksize = 1024 * 128 * 2 / sizeof(int);
+ int blocksize = 1024 * 128 * 2 * 4 / sizeof(int);
  int block_start = 0;
  for (low_value; low_value <= high_value; low_value+=blocksize) {
    index = 2;
