@@ -38,6 +38,11 @@ sieve7: sieve7.c
 	@${MPICC} -o sieve7 sieve7.c -lm
 	@echo Completed
 
+sieve8: sieve8.c
+	@echo Building $<
+	@${MPICC} -o $@ $< -lm
+	@echo Completed
+
 transfer:
 	@echo Transferring files to Washington, Lincoln, and Roosevelt
 	@scp -rp $(CURDIR)/* jefferson:$(CURDIR) > /dev/null
