@@ -342,8 +342,9 @@ Let's first explore the hardware that we are working with. `lshw` indicates the 
 
 - Xeon Silver 4110 @ 2.1GHz
 - 16KiB L1 Cache
+- 256KiB L2 Cache
 
-Let's try to stay in L1. Here's what the inner loops looks like after we adjust it to have each process handle primes in blocks:
+Let's try to stay in L2. We'll target 128KiB blocks to be sure we stay inside it. Here's what the inner loops looks like after we adjust it to have each process handle primes in blocks:
 
 ```c
 // Split into blocks to make use of cache locality
