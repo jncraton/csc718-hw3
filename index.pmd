@@ -386,6 +386,20 @@ Here are the performance numbers:
 
 That gives us better than a 3x boost. Np=1 outperforms previous algorithms with Np=4.
 
+We can do a little better on memory performance still. We are storing all the even numbers in RAM even though we know they are not prime. We can adjust our program to not store them at all. This will save RAM and allow us to increase our block size.
+
+Here are the performance numbers:
+
+  Problem    Np=1   Np=2   Np=3   Np=4
+  ---------- ------ ------ ------ ------
+  sieve1.c   4.0    5.9    3.9    3.1         
+  sieve2.c   4.0    5.7    3.9    3.1
+  sieve3.c   4.0    5.7    3.8    2.9
+  sieve4.c   1.8    1.9    1.3    0.8
+  sieve5.c   1.2    1.1    0.9    0.6
+
+That didn't help by as much, but still gives us another 25%.
+
 (10 points) Assignment 2: Compare the differences of MPI and openMP
 programming. Which one do you like better and why?
 
