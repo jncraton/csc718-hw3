@@ -134,7 +134,10 @@ int main (int argc, char *argv[])
 
  //Count the primes in each process 
  count = 0;
- for (i = 0; i < size/16+1; i++) {
+ for (i = 0; i < size/16 + 1; i++) {
+    if (i == size/16) {
+      marked[i] = marked[i] | 255 >> (size & 0b11);
+    }
     count += 
       !(marked[i] & 0b00000001) +
       !(marked[i] & 0b00000010) +
