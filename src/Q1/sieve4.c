@@ -99,9 +99,15 @@ int main (int argc, char *argv[])
   index += 2;
  } while (prime * prime <= sqrtN);
 
- //Mark all of the sieving primes from 2 -> n
+ // Split into blocks to make use of cache locality
+ int blocksize = 1024 * 16 / sizeof(int);
+ int block_start = 0;
+ for (low_value; low_value <= high_value; low_value+=blocksize) {
  index = 1;
  prime = 3;
+ int inner_size = high_value - low_value;
+ if (inner_size > blocksize) inner_size = blocksize;
+
  do {
   if (prime * prime > low_value)
    first = prime * prime - low_value;
@@ -109,13 +115,16 @@ int main (int argc, char *argv[])
    if (!(low_value % prime)) first = 0;
    else first = prime - (low_value % prime);
   }
-  for (i = first; i < size; i += prime) marked[i] = 1;
+  for (i = first; i <= inner_size; i += prime) marked[i+block_start] = 1;
 
   while (sieves[index]) index += 2;
   prime = index + 2;
   index += 2;
 
  } while (prime * prime <= n);
+
+ block_start += blocksize;
+ }
 
  //Count the primes in each process 
  count = 0;
