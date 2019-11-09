@@ -110,8 +110,6 @@ int main (int argc, char *argv[])
    int inner_size = high_value - low_value;
    if (inner_size > blocksize) inner_size = blocksize;
 
-   for (int i = 0; i < inner_size>>1; i++) marked[i] = 0;
-
    do {
     if (prime * prime > low_value)
      first = prime * prime - low_value;
@@ -132,6 +130,7 @@ int main (int argc, char *argv[])
    //Count the primes in each process 
    for (i = 0; i < inner_size>>1; i++) {
     if (!marked[i]) count++;
+    marked[i] = 0;
    }
 
  }
