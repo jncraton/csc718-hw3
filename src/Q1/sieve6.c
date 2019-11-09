@@ -100,7 +100,7 @@ int main (int argc, char *argv[])
  } while (prime * prime <= sqrtN);
 
  // Split into blocks to make use of cache locality
- int blocksize = 1024 * 128 * 2 * 4 * 8 / sizeof(int);
+ int blocksize = 1024 * 128 * 2 * 4 / sizeof(int);
  int block_start = 0;
  for (low_value; low_value <= high_value; low_value+=blocksize) {
    index = 2;
@@ -119,9 +119,7 @@ int main (int argc, char *argv[])
     }
     if (!(first & 1)) first += prime;
     for (i = first; i <= inner_size; i += prime<<1) {
-      char offset = ((i+block_start) >> 1) & 0b111;
-      marked[(i+block_start)>>4] = 
-        marked[(i+block_start)>>4] | (1 << offset);
+      marked[(i+block_start)>>1] = 1;
     }
   
     while (sieves[index]) index++;
@@ -134,19 +132,8 @@ int main (int argc, char *argv[])
 
  //Count the primes in each process 
  count = 0;
- for (i = 0; i < size/16 + 1; i++) {
-    if (i == size/16) {
-      marked[i] = marked[i] | 255 >> (size & 0b11);
-    }
-    count += 
-      !(marked[i] & 0b00000001) +
-      !(marked[i] & 0b00000010) +
-      !(marked[i] & 0b00000100) +
-      !(marked[i] & 0b00001000) +
-      !(marked[i] & 0b00010000) +
-      !(marked[i] & 0b00100000) +
-      !(marked[i] & 0b01000000) +
-      !(marked[i] & 0b10000000);
+ for (i = 0; i < size/2; i++) {
+    if (!marked[i]) count++;
  }
 
  //SUM each count into process 0.
