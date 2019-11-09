@@ -333,10 +333,57 @@ I've completed trial runs using primes up to 100,000,000
 
 I can't say I was expecting these results, but I think I can understand why they happen to a certain extent. Similar performance when Np=1 makes sense. From there, we do worse as we are paying a communication cost for multiprocessing. We begin to see benefit at Np=3 and real benefit at Np=4.
 
--   (**Bonus 10 points**) If you are able to find another way to
-    optimize the sieve program and perform better than the three visions
-    provided in the exercise, you have will chance to get an extra 10
-    points for this homework.
+Bonus
+-----
+
+> (**Bonus 10 points**) If you are able to find another way to optimize the sieve program and perform better than the three visions provided in the exercise, you have will chance to get an extra 10 points for this homework.
+
+Let's first explore the hardware that we are working with. `lshw` indicates the following:
+
+- Xeon Silver 4110 @ 2.1GHz
+- 16KiB L1 Cache
+
+Let's try to stay in L1. Here's what the inner loops looks like after we adjust it to have each process handle primes in blocks:
+
+```c
+// Split into blocks to make use of cache locality
+int blocksize = 1024 * 16 / sizeof(int);
+int block_start = 0;
+for (low_value; low_value <= high_value; low_value+=blocksize) {
+ index = 1;
+ prime = 3;
+ int inner_size = high_value - low_value;
+ if (inner_size > blocksize) inner_size = blocksize;
+
+ do {
+  if (prime * prime > low_value)
+   first = prime * prime - low_value;
+  else {
+   if (!(low_value % prime)) first = 0;
+   else first = prime - (low_value % prime);
+  }
+  for (i = first; i <= inner_size; i += prime) marked[i+block_start] = 1;
+
+  while (sieves[index]) index += 2;
+  prime = index + 2;
+  index += 2;
+
+ } while (prime * prime <= n);
+
+ block_start += blocksize;
+}
+```
+
+Here are the performance numbers:
+
+  Problem    Np=1   Np=2   Np=3   Np=4
+  ---------- ------ ------ ------ ------
+  sieve1.c   4.0    5.9    3.9    3.1         
+  sieve2.c   4.0    5.7    3.9    3.1
+  sieve3.c   4.0    5.7    3.8    2.9
+  sieve4.c   1.8    1.9    1.3    0.8
+
+That gives us better than a 3x boost. Np=1 outperforms previous algorithms with Np=4.
 
 (10 points) Assignment 2: Compare the differences of MPI and openMP
 programming. Which one do you like better and why?
