@@ -19,14 +19,14 @@ int main (int argc, char *argv[])
  unsigned long first;		/* index of the first sieve	*/
  unsigned long global_count;	/* global count of prime numbers */
  unsigned long high_value; 	/* highest value assigned to this process */
- int i;		/* loop counter		*/
+ unsigned long i;		/* loop counter		*/
  int id;		/* this process id	*/
  unsigned long index;		/* index of the current sieve	*/
  unsigned long low_value;	/* lowest value assigned to this process */
  char *marked;		/* array elements to be  marked	*/
  char *sieves;		/* array of sieving primes from k -> sqrt(n)	*/
  unsigned long n;		/* value of the largest number	*/
- int sqrtN;		/* square root of n	*/
+ unsigned long int sqrtN;		/* square root of n	*/
  int p; 		/* number of processes		*/
  int proc0_size;	/* number of elements assigned to process zero */
 			/* this is to find if process zero has all primes */
