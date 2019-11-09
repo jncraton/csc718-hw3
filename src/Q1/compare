@@ -1,0 +1,4 @@
+make sieve3
+mpirun -n 4 sieve3 10000000
+make sieve4
+mpirun -n 4 sieve4 10000000
