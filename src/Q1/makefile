@@ -40,7 +40,7 @@ sieve7: sieve7.c
 
 sieve8: sieve8.c
 	@echo Building $<
-	@${MPICC} -o $@ $< -lm
+	@${MPICC} -O3 -o $@ $< -lm
 	@echo Completed
 
 transfer:

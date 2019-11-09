@@ -68,7 +68,7 @@ int main (int argc, char *argv[])
  }
 
  int blocksize = 1024 * 128 * 2 / sizeof(char);
- marked = (char *) malloc (blocksize/2);
+ marked = (char *) malloc (blocksize);
  sieves = (char *) malloc ((sqrtN) * sizeof(char));
 
  if ((marked == NULL) || (sieves == NULL))
@@ -118,8 +118,11 @@ int main (int argc, char *argv[])
      else first = prime - (low_value % prime);
     }
     if (!(first & 1)) first += prime;
-    for (i = first>>1; i < inner_size>>1; i += prime) {
+    for (i = first>>1; i < inner_size>>1; i += prime<<2) {
       marked[i] = 1;
+      marked[i+prime] = 1;
+      marked[i+prime+prime] = 1;
+      marked[i+prime+prime+prime] = 1;
     }
   
     while (sieves[index]) index++;
