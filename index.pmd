@@ -323,11 +323,15 @@ index 8d3d8c0..7f5127e 100755
     Rushmore cluster using different number of processors and fill the
     table below. Does the Benchmark results meet your expectation? Why?
 
+I've completed trial runs using primes up to 10,000,000
+
   Problem    Np=1   Np=2   Np=3   Np=4
   ---------- ------ ------ ------ ------
-  sieve1.c                        
-  sieve2.c                        
-  sieve3.c                        
+  sieve1.c   .33    .35    .17    .17         
+  sieve2.c   .34    .34    .17    .17
+  sieve3.c   .33    .34    .16    .10
+
+These results do surprise more. I would have expected a more obvious performance improvement at each level. I was especially surprised to see that going from 1 host to 2 provides no benefit, and perhaps even modest harm.             
 
 -   (**Bonus 10 points**) If you are able to find another way to
     optimize the sieve program and perform better than the three visions
