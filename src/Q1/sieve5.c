@@ -53,6 +53,7 @@ int main (int argc, char *argv[])
 
  /* find how many elements are assigned to this process */
  low_value = 2 + BLOCK_LOW(id,p,n-1);
+ int proc_low = low_value;
  high_value = 2 + BLOCK_HIGH(id,p,n-1);
  size = BLOCK_SIZE(id,p,n-1);
  proc0_size = (n-1)/p;
@@ -107,6 +108,8 @@ int main (int argc, char *argv[])
    int inner_size = high_value - low_value;
    if (inner_size > blocksize) inner_size = blocksize;
   
+   if (low_value & 1) low_value--;
+
    do {
     if (prime * prime > low_value)
      first = prime * prime - low_value;
