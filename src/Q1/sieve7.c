@@ -67,7 +67,8 @@ int main (int argc, char *argv[])
   exit (1);
  }
 
- marked = (char *) malloc (size * sizeof(char));
+ int blocksize = 1024 * 128 * 2 / sizeof(char);
+ marked = (char *) malloc (blocksize/2);
  sieves = (char *) malloc ((sqrtN) * sizeof(char));
 
  if ((marked == NULL) || (sieves == NULL))
@@ -80,8 +81,6 @@ int main (int argc, char *argv[])
  if (!id)
   marked[0] = 0;
 
- for (i=0;i<size;i++) marked[i] = 0;
- marked[0] = 1;
  for (i=0;i<sqrtN;i++) sieves[i] = 0;
  sieves[0] = 1;
 
@@ -99,16 +98,19 @@ int main (int argc, char *argv[])
   index++;
  } while (prime * prime <= sqrtN);
 
+ count = 0;
+
  // Split into blocks to make use of cache locality
- int blocksize = 1024 * 128 * 2 * 4 / sizeof(int);
- int block_start = 0;
  for (low_value; low_value <= high_value; low_value+=blocksize) {
    index = 2;
    prime = 3;
+
+   if (low_value & 1) low_value--;
+
    int inner_size = high_value - low_value;
    if (inner_size > blocksize) inner_size = blocksize;
-  
-   if (low_value & 1) low_value--;
+
+   for (int i = 0; i < inner_size>>1; i++) marked[i] = 0;
 
    do {
     if (prime * prime > low_value)
@@ -118,8 +120,8 @@ int main (int argc, char *argv[])
      else first = prime - (low_value % prime);
     }
     if (!(first & 1)) first += prime;
-    for (i = first; i <= inner_size; i += prime<<1) {
-      marked[(i+block_start)>>1] = 1;
+    for (i = first>>1; i < inner_size>>1; i += prime) {
+      marked[i] = 1;
     }
   
     while (sieves[index]) index++;
@@ -127,14 +129,13 @@ int main (int argc, char *argv[])
     index += 1;
    } while (prime * prime <= n);
   
-   block_start += blocksize;
+   //Count the primes in each process 
+   for (i = 0; i < inner_size>>1; i++) {
+    if (!marked[i]) count++;
+   }
+
  }
 
- //Count the primes in each process 
- count = 0;
- for (i = 0; i < size/2; i++) {
-    if (!marked[i]) count++;
- }
 
  //SUM each count into process 0.
  MPI_Reduce (&count, &global_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
