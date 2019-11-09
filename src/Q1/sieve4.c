@@ -100,7 +100,7 @@ int main (int argc, char *argv[])
  } while (prime * prime <= sqrtN);
 
  // Split into blocks to make use of cache locality
- int blocksize = 1024 * 16 / sizeof(int);
+ int blocksize = 1024 * 128 / sizeof(int);
  int block_start = 0;
  for (low_value; low_value <= high_value; low_value+=blocksize) {
    index = 1;
