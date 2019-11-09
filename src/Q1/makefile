@@ -33,9 +33,9 @@ sieve6: sieve6.c
 	@${MPICC} -o sieve6 sieve6.c -lm
 	@echo Completed
 
-sieve6: sieve7.c
-	@echo Building sieve6.c
-	@${MPICC} -o sieve6 sieve6.c -lm
+sieve7: sieve7.c
+	@echo Building sieve7.c
+	@${MPICC} -o sieve7 sieve7.c -lm
 	@echo Completed
 
 transfer:
