@@ -1,4 +1,4 @@
-EXECS=sieve1 sieve2 sieve3 sieve4
+EXECS=sieve1 sieve2 sieve3 sieve4 sieve5
 MPICC?=mpicc
 
 all: ${EXECS} transfer
@@ -21,6 +21,11 @@ sieve3: sieve3.c
 sieve4: sieve4.c
 	@echo Building sieve4.c
 	@${MPICC} -o sieve4 sieve4.c -lm
+	@echo Completed
+
+sieve5: sieve5.c
+	@echo Building sieve5.c
+	@${MPICC} -o sieve5 sieve5.c -lm
 	@echo Completed
 
 transfer:
