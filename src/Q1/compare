@@ -1,4 +1,4 @@
 make sieve3
 #mpirun -n 4 sieve3 $1
 make sieve4 && mpirun -n 4 sieve4 $1
-make sieve5 && mpirun -n 1 sieve5 $1
+make sieve5 && mpirun -n 4 sieve5 $1
