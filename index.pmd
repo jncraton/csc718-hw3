@@ -446,12 +446,23 @@ Next let's try unrolling the main loop. Here are the performance numbers:
 
 That gives us another nice bump of perhaps 25%.
 
-(10 points) Assignment 2: Compare the differences of MPI and openMP
-programming. Which one do you like better and why?
+I did make one last version of this program using long doubles so that I could count to higher numbers. I was able to count the primes between 1 and 100 billion in 255 seconds. Somewhat frustratingly, my result disagrees with the real result by exactly 1.
 
-(30 points) Assignment 3: For linpack\_bench.cpp, read the profile tool
-gprof user manual (see the html guide), run the profiling tool and
-report the percentage of running times for each function.
+Part 2
+------
+
+> (10 points) Assignment 2: Compare the differences of MPI and openMP programming. Which one do you like better and why?
+
+These two ways of programming differ in a number of ways. Perhaps the most significant is the way that memory is treated. MPI programming acknowledges that discrete hosts in a modern supercomputing system have their own memory and CPU that will perform best locally. MPI provides an API to easily orchestrate these machines into a group and efficiently share data between them as needed. OpenMP is designed around the concept of shared memory, as we see in more traditional monolithic computer systems.
+
+It's hard for me to say which I like better. I've spend more time with MPI, and I like the power that it gives me to run code across a number of hosts. However, most of the time I'm not writing code for a supercomputer. Instead, I'm writing code for my mulitcore workstation, or perhaps a single server multicore server. In that case, I'd prefer to use OpenMP in order to get the cleaner shared memory interface.
+
+Part 3
+------
+
+> (30 points) Assignment 3: For linpack\_bench.cpp, read the profile tool gprof user manual (see the html guide), run the profiling tool and report the percentage of running times for each function. 
+
+
 
 (40 points) Programming Assignment 4: For the 4 sequential c programs,
 p1.c, p2.c, p3.c, p4.c, using openmp to parallelize them as much as
