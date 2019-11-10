@@ -14,24 +14,24 @@
 
 int main (int argc, char *argv[])
 {
- unsigned long count;		/* local prime count	*/
+ unsigned long long count;		/* local prime count	*/
  double elapsed_time; /* execution time	*/
- unsigned long first;		/* index of the first sieve	*/
- unsigned long global_count;	/* global count of prime numbers */
- unsigned long high_value; 	/* highest value assigned to this process */
- unsigned long i;		/* loop counter		*/
+ unsigned long long first;		/* index of the first sieve	*/
+ unsigned long long global_count;	/* global count of prime numbers */
+ unsigned long long high_value; 	/* highest value assigned to this process */
+ unsigned long long i;		/* loop counter		*/
  int id;		/* this process id	*/
- unsigned long index;		/* index of the current sieve	*/
- unsigned long low_value;	/* lowest value assigned to this process */
+ unsigned long long index;		/* index of the current sieve	*/
+ unsigned long long low_value;	/* lowest value assigned to this process */
  char *marked;		/* array elements to be  marked	*/
  char *sieves;		/* array of sieving primes from k -> sqrt(n)	*/
- unsigned long n;		/* value of the largest number	*/
- unsigned long int sqrtN;		/* square root of n	*/
+ unsigned long long n;		/* value of the largest number	*/
+ unsigned long long int sqrtN;		/* square root of n	*/
  int p; 		/* number of processes		*/
  int proc0_size;	/* number of elements assigned to process zero */
 			/* this is to find if process zero has all primes */
- unsigned long prime;		/* current prime or sieve	*/
- unsigned long size;		/* elements in marked array 	*/
+ unsigned long long prime;		/* current prime or sieve	*/
+ unsigned long long size;		/* elements in marked array 	*/
 
  MPI_Init (&argc, &argv);
  /* start timer */
@@ -49,15 +49,15 @@ int main (int argc, char *argv[])
   exit (1);
  }
 
- n = atol(argv[1]);
+ n = atoll(argv[1]);
 
  /* find how many elements are assigned to this process */
  low_value = 2 + BLOCK_LOW(id,p,n-1);
- unsigned long proc_low = low_value;
+ unsigned long long proc_low = low_value;
  high_value = 2 + BLOCK_HIGH(id,p,n-1);
  size = BLOCK_SIZE(id,p,n-1);
  proc0_size = (n-1)/p;
- sqrtN = (long) sqrt((double) n);
+ sqrtN = (long long) sqrt((double) n);
  if ((2 + proc0_size) < sqrtN)
  {
   if (!id)
@@ -68,7 +68,7 @@ int main (int argc, char *argv[])
  }
 
  int blocksize = 1024 * 128 * 2 / sizeof(char);
- marked = (char *) malloc (blocksize);
+ marked = (char *) malloc (blocksize + sqrtN*4);
  sieves = (char *) malloc ((sqrtN) * sizeof(char));
 
  if ((marked == NULL) || (sieves == NULL))
@@ -107,7 +107,7 @@ int main (int argc, char *argv[])
 
    if (low_value & 1) low_value--;
 
-   unsigned long inner_size = high_value - low_value;
+   unsigned long long inner_size = high_value - low_value;
    if (inner_size > blocksize) inner_size = blocksize;
 
    do {
@@ -144,7 +144,7 @@ int main (int argc, char *argv[])
  elapsed_time += MPI_Wtime();
 
  if (!id) {
-  printf ("%ld primes are less than or equal to %ld\n", global_count + 2, n);
+  printf ("%lld primes are less than or equal to %lld\n", global_count + 2, n);
   printf ("Total elapsed time: %10.6f\n", elapsed_time);
  }
 
