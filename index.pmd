@@ -501,7 +501,7 @@ Part 4
 
                                  P1   P2   P3   P4
   ------------------------------ ---- ---- ---- ----
-  Sequential code running time                  
+  Sequential code running time   .017 .012 1.0  .054             
   openMP running time                           
   Speed up                                      
   No. of threads                                
