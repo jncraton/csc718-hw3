@@ -505,14 +505,14 @@ Running time were collected by averaging us a command such as:
 time for i in {1..100}; do ./p1 > /dev/null; done
 ```
 
-Reported times are the real time averages from those commands.
+Reported times are the real time averages from those commands. I've used 4 threads for the multithreaded testing. It should be noted that the laptop I used for this is only dual core with 2 threads per core, so it would be difficult to come close to 4x performance.
 
                                  P1   P2   P3   P4
   ------------------------------ ---- ---- ---- ----
   Sequential code running time   .017 .012 1.0  .054             
-  openMP running time                           
+  openMP running time            .007               
   Speed up                                      
-  No. of threads                                
+  No. of threads                 4               
 
 
 Due: Nov 19, by Midnight 2019

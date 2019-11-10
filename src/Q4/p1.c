@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <omp.h>
 #define INTERVALS 1000000
 
 int main(int arc, char* argv[])
@@ -9,6 +10,14 @@ int main(int arc, char* argv[])
 	int i;	
 
 	ysum = 0.0;
+
+  omp_set_num_threads(2);
+
+  #pragma omp parallel \
+  shared ( ysum ) \
+  private ( i, xi )
+
+  #pragma omp for reduction ( +: ysum )
 
 	for (i=0; i < INTERVALS; i++)
 	{
