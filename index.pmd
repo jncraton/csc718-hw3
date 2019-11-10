@@ -510,9 +510,9 @@ Reported times are the real time averages from those commands. I've used 4 threa
                                  P1   P2   P3   P4
   ------------------------------ ---- ---- ---- ----
   Sequential code running time   .017 .013 1.0  .054             
-  openMP running time            .007 .015              
-  Speed up                       2.4  -.2             
-  No. of threads                 4    4           
+  openMP running time            .007 .015 1.0             
+  Speed up                       2.4  -.2  0           
+  No. of threads                 4    4    4       
 
 
 Due: Nov 19, by Midnight 2019

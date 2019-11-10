@@ -8,10 +8,14 @@ float a[VECLEN], b[VECLEN], sum;
 float dotprod ()
 {
 int i,tid;
-
+float tmp;
+  omp_set_num_threads(4);
+  #pragma omp parallel
+  #pragma omp reduction (+ sum )
   for (i=0; i < VECLEN; i++)
     {
-    sum = sum + (a[i]*b[i]);
+    tmp = a[i]*b[i];
+    sum += tmp;
     }
 }
 

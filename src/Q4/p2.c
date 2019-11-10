@@ -20,9 +20,11 @@ int main (int argc, char *argv[])
   omp_set_num_threads(4);
 
   #pragma omp parallel
-  #pragma omp for schedule(static,n) reduction ( +: sum )
-	for (i=0; i < n; i++)
-		sum += (a[i] * b[i]*b[i]*b[i]);
-
+  #pragma omp for reduction (+:sum)
+	for (i=0; i < n; i++) {
+	  float tmp = (a[i] * b[i]*b[i]*b[i]);
+		sum += tmp;
+  }
+  
 	printf("   Sum = %f\n",sum);
 }
