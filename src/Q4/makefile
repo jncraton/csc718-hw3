@@ -4,6 +4,7 @@ all: $(bins)
 
 %: %.c
 	gcc $< -o $@
+	./$@ | diff test/$@ -
 
 clean:
 	rm -f $(bins)
