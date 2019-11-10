@@ -460,21 +460,44 @@ It's hard for me to say which I like better. I've spend more time with MPI, and 
 Part 3
 ------
 
-> (30 points) Assignment 3: For linpack\_bench.cpp, read the profile tool gprof user manual (see the html guide), run the profiling tool and report the percentage of running times for each function. 
+> (30 points) Assignment 3: For linpack\_bench.cpp, read the profile tool gprof user manual (see the html guide), run the profiling tool and report the percentage of running times for each function.
 
+A makefile is included in the `src/Q3` directory showing the steps need to generate this output. The output itself is:
 
+```
+Flat profile:
 
-(40 points) Programming Assignment 4: For the 4 sequential c programs,
-p1.c, p2.c, p3.c, p4.c, using openmp to parallelize them as much as
-possible and do the following profiling.
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 83.23      0.99     0.99   501499     0.00     0.00  daxpy(int, double, double*, int, double*, int)
+  6.73      1.07     0.08  2000000     0.00     0.00  r8_random(int*)
+  5.04      1.13     0.06        1     0.06     1.05  dgefa(double*, int, int, int*)
+  4.20      1.18     0.05                             main
+  0.84      1.19     0.01        2     0.01     0.05  r8_matgen(int, int)
+  0.00      1.19     0.00  1003000     0.00     0.00  r8_max(double, double)
+  0.00      1.19     0.00   509110     0.00     0.00  r8_abs(double)
+  0.00      1.19     0.00      999     0.00     0.00  dscal(int, double, double*, int)
+  0.00      1.19     0.00      999     0.00     0.00  idamax(int, double*, int)
+  0.00      1.19     0.00       11     0.00     0.00  std::setw(int)
+  0.00      1.19     0.00        4     0.00     0.00  cpu_time()
+  0.00      1.19     0.00        2     0.00     0.00  timestamp()
+  0.00      1.19     0.00        1     0.00     0.00  _GLOBAL__sub_I_main
+  0.00      1.19     0.00        1     0.00     0.00  r8_epsilon()
+  0.00      1.19     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00      1.19     0.00        1     0.00     0.00  dgesl(double*, int, int, int*, double*, int)
+```
 
--   Add timestamp functions to the code to count the running time of the
-    sequential programs and your openmp programs and show the result in
-    the following table.
+We can see that the program spends the majority of its running time (83.23%) in the function daxpy.
 
--   Copy your openmp program running outputs to a report file
-    running.txt. You need to make sure openmp programs should generate
-    the same results as the sequential codes.
+Part 4
+------
+
+> (40 points) Programming Assignment 4: For the 4 sequential c programs, p1.c, p2.c, p3.c, p4.c, using openmp to parallelize them as much as possible and do the following profiling.
+>
+> -   Add timestamp functions to the code to count the running time of the sequential programs and your openmp programs and show the result in the following table.
+>
+> -   Copy your openmp program running outputs to a report file running.txt. You need to make sure openmp programs should generate the same results as the sequential codes.
 
                                  P1   P2   P3   P4
   ------------------------------ ---- ---- ---- ----
