@@ -446,7 +446,7 @@ Next let's try unrolling the main loop. Here are the performance numbers:
 
 That gives us another nice bump of perhaps 25%.
 
-I did make one last version of this program using long doubles so that I could count to higher numbers. I was able to count the primes between 1 and 100 billion in 255 seconds. Somewhat frustratingly, my result disagrees with the real result by exactly 1.
+I did make one last version of this program using 64-bit ints so that I could count to higher numbers. I was able to count the primes between 1 and 100 billion in 255 seconds. Somewhat frustratingly, my result disagrees with the real result by exactly 1.
 
 Part 2
 ------
