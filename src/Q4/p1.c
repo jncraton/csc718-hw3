@@ -11,7 +11,7 @@ int main(int arc, char* argv[])
 
 	ysum = 0.0;
 
-  omp_set_num_threads(2);
+  omp_set_num_threads(4);
 
   #pragma omp parallel \
   shared ( ysum ) \
