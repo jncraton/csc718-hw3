@@ -5,6 +5,7 @@ all: $(bins)
 %: %.c
 	gcc $< -fopenmp -o $@
 	./$@ | diff test/$@ -
+	time ./$@ > /dev/null
 
 clean:
 	rm -f $(bins)

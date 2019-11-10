@@ -499,7 +499,7 @@ Part 4
 >
 > -   Copy your openmp program running outputs to a report file running.txt. You need to make sure openmp programs should generate the same results as the sequential codes.
 
-Running time were collected by averaging us a command such as:
+Running times were collected by averaging using a command such as:
 
 ```bash
 time for i in {1..100}; do ./p1 > /dev/null; done
@@ -509,10 +509,10 @@ Reported times are the real time averages from those commands. I've used 4 threa
 
                                  P1   P2   P3   P4
   ------------------------------ ---- ---- ---- ----
-  Sequential code running time   .017 .012 1.0  .054             
-  openMP running time            .007               
-  Speed up                                      
-  No. of threads                 4               
+  Sequential code running time   .017 .013 1.0  .054             
+  openMP running time            .007 .015              
+  Speed up                       2.4  -.2             
+  No. of threads                 4    4           
 
 
 Due: Nov 19, by Midnight 2019
