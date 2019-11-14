@@ -11,20 +11,22 @@ int main (int argc, char *argv[])
 
 	/* Some initializations */
 	n = 1000000;
+  omp_set_num_threads(4);
 
+  #pragma omp parallel for
 	for (i=0; i < n; i++)
 		a[i] = b[i] = i * 1.0;
 
 	sum = 0.0;
 
-  omp_set_num_threads(4);
-
-  #pragma omp parallel
-  #pragma omp for reduction (+:sum)
+  #pragma omp parallel for
 	for (i=0; i < n; i++) {
-	  float tmp = (a[i] * b[i]*b[i]*b[i]);
-		sum += tmp;
+	  a[i] = (a[i] * b[i]*b[i]*b[i]);
   }
+
+	for (i=0; i < n; i++) {
+	  sum += a[i];
+	}
   
 	printf("   Sum = %f\n",sum);
 }

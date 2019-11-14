@@ -505,13 +505,15 @@ Running times were collected by averaging using a command such as:
 time for i in {1..100}; do ./p1 > /dev/null; done
 ```
 
-Reported times are the real time averages from those commands. I've used 4 threads for the multithreaded testing. It should be noted that the laptop I used for this is only dual core with 2 threads per core, so it would be difficult to come close to 4x performance.
+The included makefile includes a check to verify that openmp versions of programs produce identical output to their sequential versions. Expected output is located in the `src/Q4/test` directory.
+
+Reported times are the real time averages from those commands. I've used 4 threads for the multithreaded testing. It should be noted that the testing for individual problems was done on the same systems, but I didn't use the same system for all problems.
 
                                  P1   P2   P3   P4
   ------------------------------ ---- ---- ---- ----
-  Sequential code running time   .017 .013 1.0  .054             
-  openMP running time            .007 .015 1.0             
-  Speed up                       2.4  -.2  0           
+  Sequential code running time   .017 .008 .80  .034             
+  openMP running time            .007 .005 .44             
+  Speed up                       2.4x 1.6x 1.8x           
   No. of threads                 4    4    4       
 
 

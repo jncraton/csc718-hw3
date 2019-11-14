@@ -18,18 +18,29 @@ chunk = 10;                    /* set loop iteration chunk size */
 
 
   /*** Initialize matrices ***/
+  
+  omp_set_num_threads(4);
+
+  #pragma omp parallel for
   for (i=0; i<NRA; i++)
     for (j=0; j<NCA; j++)
       a[i][j]= i+j;
 
+  #pragma omp critical
+
+  #pragma omp parallel for
   for (i=0; i<NCA; i++)
     for (j=0; j<NCB; j++)
       b[i][j]= i*j;
 
+  #pragma omp critical
+
+  #pragma omp parallel for
   for (i=0; i<NRA; i++)
     for (j=0; j<NCB; j++)
       c[i][j]= 0;
 
+  #pragma omp critical
 
   for (i=0; i<NRA; i++)
     {

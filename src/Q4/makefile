@@ -1,4 +1,4 @@
-bins=p1 p2 p3 p4
+bins=p1 p2 p3 p4 seq/p2
 
 all: $(bins)
 
