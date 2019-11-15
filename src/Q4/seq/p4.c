@@ -54,6 +54,6 @@ for (i=0; i<NRA; i++)
   }
 printf("******************************************************\n");
 printf ("Done.\n");
-printf ("%f.\n", time_spent);
+printf ("Time: %f.\n", time_spent);
 
 }
