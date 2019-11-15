@@ -2,6 +2,7 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define NRA 620                 /* number of rows in matrix A */
 #define NCA 150                 /* number of columns in matrix A */
@@ -16,31 +17,34 @@ double	a[NRA][NCA],           /* matrix A to be multiplied */
 
   /*** Initialize matrices ***/
 
-  for (i=0; i<NRA; i++) {
+  for (i=0; i<NRA; i++)
     for (j=0; j<NCA; j++)
       a[i][j]= i+j;
-  }
-  
-  for (i=0; i<NCA; i++) {
+  for (i=0; i<NCA; i++)
     for (j=0; j<NCB; j++)
       b[i][j]= i*j;
-  }
-
-  for (i=0; i<NRA; i++) {
+  for (i=0; i<NRA; i++)
     for (j=0; j<NCB; j++)
       c[i][j]= 0;
-  }
 
   omp_set_num_threads(4);
 
-  #pragma omp parallel for private(j,i) reduction(+:c[:NRA][:NCB]) schedule(static,NCB) collapse(3)
-  for (k=0; k<NCA; k++) {
-    for (i=0; i<NRA; i++) {
+  clock_t begin = clock();
+
+  #pragma omp parallel for schedule(static,1)
+  for (i=0; i<NRA; i+=2) {
+    for (k=0; k<NCA; k+=2) {
       for (j=0; j<NCB; j++) {
         c[i][j] += a[i][k] * b[k][j];
+        c[i+1][j] += a[i+1][k] * b[k][j];
+        c[i][j] += a[i][k+1] * b[k+1][j];
+        c[i+1][j] += a[i+1][k+1] * b[k+1][j];
       }
     }
   }
+
+  clock_t end = clock();
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
   {
 
@@ -55,5 +59,6 @@ for (i=0; i<NRA; i++)
   }
 printf("******************************************************\n");
 printf ("Done.\n");
+printf ("Time: %f\n", time_spent);
 }
 }

@@ -2,6 +2,7 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define NRA 620                 /* number of rows in matrix A */
 #define NCA 150                 /* number of columns in matrix A */
@@ -30,6 +31,7 @@ chunk = 10;                    /* set loop iteration chunk size */
     for (j=0; j<NCB; j++)
       c[i][j]= 0;
 
+  clock_t begin = clock();
 
   for (i=0; i<NRA; i++)
     {
@@ -38,6 +40,8 @@ chunk = 10;                    /* set loop iteration chunk size */
         c[i][j] += a[i][k] * b[k][j];
     }
 
+  clock_t end = clock();
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 
 /*** Print results ***/
 printf("******************************************************\n");
@@ -50,5 +54,6 @@ for (i=0; i<NRA; i++)
   }
 printf("******************************************************\n");
 printf ("Done.\n");
+printf ("%f.\n", time_spent);
 
 }

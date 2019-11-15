@@ -3,7 +3,7 @@ bins=p1 p2 p3 p4 seq/p2
 all: $(bins)
 
 %: %.c
-	gcc $< -fopenmp -o $@
+	gcc -O3 $< -fopenmp -o $@
 	./$@ | diff test/$@ -
 	time ./$@ > /dev/null
 
