@@ -33,10 +33,10 @@ double	a[NRA][NCA],           /* matrix A to be multiplied */
 
   omp_set_num_threads(4);
 
-  #pragma omp parallel for private(j,i) reduction(+:c[:NRA][:NCB]) schedule(static,1) collapse(3)
+  #pragma omp parallel for private(j,i) reduction(+:c[:NRA][:NCB]) schedule(static,NCB) collapse(3)
   for (k=0; k<NCA; k++) {
-    for (j=0; j<NCB; j++) {
-      for (i=0; i<NRA; i++) {
+    for (i=0; i<NRA; i++) {
+      for (j=0; j<NCB; j++) {
         c[i][j] += a[i][k] * b[k][j];
       }
     }
