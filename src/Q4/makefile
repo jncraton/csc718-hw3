@@ -1,11 +1,15 @@
-bins=p1 p2 p3 p4 seq/p2
+bins=p1 p2 p3 p4
 
 all: $(bins)
 
-%: %.c
+%: %.c seq/%
 	gcc -O3 $< -fopenmp -o $@
-	./$@ | diff test/$@ -
-	time ./$@ > /dev/null
+	./$@ | head -n -1 | diff test/$@ -
+	seq/$@ | tail -n 1
+	./$@ | tail -n 1
+
+seq/%: seq/%.c
+	gcc -O3 $< -fopenmp -o $@
 
 clean:
 	rm -f $(bins)
