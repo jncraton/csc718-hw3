@@ -43,8 +43,7 @@ double	a[NRA][NCA],           /* matrix A to be multiplied */
     }
   }
 
-  clock_t end = clock();
-  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
 
   {
 
