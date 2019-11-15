@@ -13,3 +13,7 @@ seq/%: seq/%.c
 
 clean:
 	rm -f $(bins)
+	rm -f seq/p1
+	rm -f seq/p2
+	rm -f seq/p3
+	rm -f seq/p4
