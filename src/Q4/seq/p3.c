@@ -1,6 +1,7 @@
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define VECLEN 100000000
 
 float a[VECLEN], b[VECLEN], sum;
@@ -23,9 +24,13 @@ for (i=0; i < VECLEN; i++)
   a[i] = b[i] = 1.0 * i;
 sum = 0.0;
 
-  dotprod();
+  clock_t begin = clock();
 
-printf("Sum = %f\n",sum);
+  dotprod();
+  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+
+  printf("Sum = %f\n",sum);
+  printf ("Time: %f\n", time_spent);
 
 }
 

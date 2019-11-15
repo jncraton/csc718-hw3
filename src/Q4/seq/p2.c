@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 int main (int argc, char *argv[])
 {
@@ -16,8 +17,14 @@ int main (int argc, char *argv[])
 
 	sum = 0.0;
 
+  clock_t begin = clock();
+
   	for (i=0; i < n; i++)
 		sum = sum + (a[i] * b[i]*b[i]*b[i]);
 
+  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+
 	printf("   Sum = %f\n",sum);
+  printf ("Time: %f\n", time_spent);
+	return 0;
 }

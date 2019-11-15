@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #define INTERVALS 1000000
 
 int main(int arc, char* argv[])
@@ -10,6 +11,8 @@ int main(int arc, char* argv[])
 
 	ysum = 0.0;
 
+  clock_t begin = clock();
+
 	for (i=0; i < INTERVALS; i++)
 	{
 		xi=((1.0/INTERVALS)*(i+0.5));
@@ -17,6 +20,11 @@ int main(int arc, char* argv[])
 	}
 
 	area = ysum * (1.0/INTERVALS);
+
+  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+
 	printf("pi is %13.11f\n", area);
+
+  printf ("Time: %f\n", time_spent);
 	return 0;
 }

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 int main (int argc, char *argv[])
 {
@@ -11,6 +12,7 @@ int main (int argc, char *argv[])
 
 	/* Some initializations */
 	n = 1000000;
+
   omp_set_num_threads(4);
 
   #pragma omp parallel for
@@ -19,14 +21,15 @@ int main (int argc, char *argv[])
 
 	sum = 0.0;
 
-  #pragma omp parallel for
+  clock_t begin = clock();
+
+  #pragma omp parallel for schedule(static) reduction(+:sum)
 	for (i=0; i < n; i++) {
-	  a[i] = (a[i] * b[i]*b[i]*b[i]);
+	  sum += a[i] *b[i]*b[i]*b[i];
   }
 
-	for (i=0; i < n; i++) {
-	  sum += a[i];
-	}
+  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
   
 	printf("   Sum = %f\n",sum);
+  printf ("Time: %f\n", time_spent);
 }
