@@ -4,9 +4,9 @@
 #include <time.h>
 #define VECLEN 100000000
 
-float a[VECLEN], b[VECLEN], sum;
+double a[VECLEN], b[VECLEN], sum;
 
-float dotprod ()
+void dotprod ()
 {
 int i,tid;
 
