@@ -37,10 +37,10 @@ chunk = 10;                    /* set loop iteration chunk size */
   omp_set_num_threads(4);
 
   for (k=0; k<NCA; k++) {
-    for (i=0; i<NRA; i++) {
-      #pragma omp parallel for
-      for (j=0; j<NCB; j++) {
-          c[i][j] += a[i][k] * b[k][j];
+    #pragma omp parallel for private(i)
+    for (j=0; j<NCB; j++) {
+      for (i=0; i<NRA; i++) {
+        c[i][j] += a[i][k] * b[k][j];
       }
     }
   }
