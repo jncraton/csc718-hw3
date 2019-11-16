@@ -319,9 +319,12 @@ index 8d3d8c0..7f5127e 100755
   elapsed_time += MPI_Wtime();
 ```
 
--   (5 points) Benchmark the performance of the three versions on the
-    Rushmore cluster using different number of processors and fill the
-    table below. Does the Benchmark results meet your expectation? Why?
+The main difference in this version is that each process creates its own list of sieving primes. This removes the need to broadcast to other processes.
+
+Part 3
+------
+
+> (5 points) Benchmark the performance of the three versions on the Rushmore cluster using different number of processors and fill the table below. Does the Benchmark results meet your expectation? Why?
 
 I've completed trial runs using primes up to 100,000,000
 
@@ -337,6 +340,10 @@ Bonus
 -----
 
 > (**Bonus 10 points**) If you are able to find another way to optimize the sieve program and perform better than the three visions provided in the exercise, you have will chance to get an extra 10 points for this homework.
+
+I've added additional sieve implementations to the `src/Q1` directory. They can all be built using the included makefile.
+
+### Spatial Locality
 
 Let's first explore the hardware that we are working with. `lshw` indicates the following:
 
@@ -386,6 +393,8 @@ Here are the performance numbers:
 
 That gives us better than a 3x boost. Np=1 outperforms previous algorithms with Np=4.
 
+### Ignore even numbers
+
 We can do a little better on memory performance still. We are storing all the even numbers in RAM even though we know they are not prime. We can adjust our program to not store evens at all. This will save RAM and allow us to increase our block size.
 
 Here are the performance numbers:
@@ -400,7 +409,9 @@ Here are the performance numbers:
 
 That didn't help by as much, but still gives us another 25%.
 
-We can also change from ints to chars and bump up our cache size by 4x. I also tested more complex bit-based storage, but this turned out to not improve performance significantly.
+### Increase block size by using single byte markers
+
+We can also change from ints to chars and bump up our block size by 4x. I also tested more complex bit-based storage, but this turned out to not improve performance significantly.
 
 Here are the performance numbers:
 
@@ -414,6 +425,8 @@ Here are the performance numbers:
   sieve6.c   1.0    1.1    0.7    0.5
 
 That gives us another modest 10-20% boost.
+
+### Work in a single slice of RAM
 
 It occurred to me that we actually don't need all the RAM we're currently allocating. We should be able to do everything in L2 cache, no longer be memory bound, and benefit even more from cache locality.
 
@@ -430,6 +443,8 @@ Here are the performance numbers:
   sieve7.c   0.7    0.5    0.34   0.26
 
 That gives us a nearly 2x increase.
+
+### Loop unrolling
 
 Next let's try unrolling the main loop. Here are the performance numbers:
 
@@ -453,16 +468,18 @@ Part 2
 
 > (10 points) Assignment 2: Compare the differences of MPI and openMP programming. Which one do you like better and why?
 
-These two ways of programming differ in a number of ways. Perhaps the most significant is the way that memory is treated. MPI programming acknowledges that discrete hosts in a modern supercomputing system have their own memory and CPU that will perform best locally. MPI provides an API to easily orchestrate these machines into a group and efficiently share data between them as needed. OpenMP is designed around the concept of shared memory, as we see in more traditional monolithic computer systems.
+These two ways of programming differ in a number of ways. Perhaps the most significant is the way that memory is treated. MPI programming acknowledges that discrete hosts in a modern supercomputing system have their own memory and CPU that will perform best locally. This is known as a non-uniform memory architecture (NUMA). MPI provides an API to easily orchestrate these machines into a group and efficiently share data between them as needed.
 
-It's hard for me to say which I like better. I've spend more time with MPI, and I like the power that it gives me to run code across a number of hosts. However, most of the time I'm not writing code for a supercomputer. Instead, I'm writing code for my mulitcore workstation, or perhaps a single server multicore server. In that case, I'd prefer to use OpenMP in order to get the cleaner shared memory interface.
+OpenMP is designed around the concept of shared memory, as we see in more traditional monolithic computer systems. It often makes it very easy to change sequential code into parallel code.
+
+It's hard for me to say which I like better. I've spent more time with MPI, and I like the power that it gives me to run code across a number of hosts. However, most of the time I'm not writing code for a supercomputer. Instead, I'm writing code for my mulitcore workstation, or perhaps a single server multicore server. In that case, I'd prefer to use OpenMP in order to get the cleaner shared memory interface. If I'm working with a network of mulitcore systems, it would also be beneficial to use both.
 
 Part 3
 ------
 
 > (30 points) Assignment 3: For linpack\_bench.cpp, read the profile tool gprof user manual (see the html guide), run the profiling tool and report the percentage of running times for each function.
 
-A makefile is included in the `src/Q3` directory showing the steps need to generate this output. The output itself is:
+A makefile is included in the `src/Q3` directory showing the steps needed to generate this output. The output itself is:
 
 ```
 Flat profile:
@@ -499,15 +516,11 @@ Part 4
 >
 > -   Copy your openmp program running outputs to a report file running.txt. You need to make sure openmp programs should generate the same results as the sequential codes.
 
-Running times were collected by averaging using a command such as:
+The included makefile includes a check to verify that openmp versions of programs produce similar output to their sequential versions. Expected output is located in the `src/Q4/test` directory.
 
-```bash
-time for i in {1..100}; do ./p1 > /dev/null; done
-```
+I've used 4 threads for the multithreaded testing. It should be noted that the testing for individual problems was done on the same systems, but I didn't use the same system for all problems.
 
-The included makefile includes a check to verify that openmp versions of programs produce identical output to their sequential versions. Expected output is located in the `src/Q4/test` directory.
-
-Reported times are the real time averages from those commands. I've used 4 threads for the multithreaded testing. It should be noted that the testing for individual problems was done on the same systems, but I didn't use the same system for all problems.
+Here are the performance numbers:
 
                                  P1   P2    P3   P4
   ------------------------------ ---- ----- ---- ----
@@ -520,23 +533,3 @@ Reported times are the real time averages from those commands. I've used 4 threa
 Due: Nov 19, by Midnight 2019
 
 Total: 100 points
-
-Note: For all the programming assignments, you can choose any operating
-systems you want. I will usually provide C/C++ samples for the
-programming assignments. If you prefer to use other languages, e.g.,
-Java, they are accepted too. A README.txt is required to submit any
-programming assignments. In the README.txt, you need to provide the
-following information:
-
-1)  How to compile your program?
-
-2)  How to run your program?
-
-3)  What is the output and the results when I run your program?
-
-4)  Any descriptions which may help me to compile, run, and verify your
-    answers. (FYI: I check each programming assignment turned in!)
-
-Zip all you source code, project files, supporting files, and README.txt
-and submit the all-in-one zip file together to the D2L Dropbox.
-
