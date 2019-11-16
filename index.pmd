@@ -516,11 +516,11 @@ Part 4
 >
 > -   Copy your openmp program running outputs to a report file running.txt. You need to make sure openmp programs should generate the same results as the sequential codes.
 
-The included makefile includes a check to verify that openmp versions of programs produce similar output to their sequential versions. Expected output is located in the `src/Q4/test` directory.
+My code if these problems is located in `src/Q4`.
 
-I've used 4 threads for the multithreaded testing. It should be noted that the testing for individual problems was done on the same systems, but I didn't use the same system for all problems.
+The makefile in `src/Q4` includes a check to verify that openmp versions of programs produce similar output to their sequential versions. Expected output is located in the `src/Q4/test` directory.
 
-Here are the performance numbers:
+I've used 4 threads for the multithreaded testing. Here are the performance numbers:
 
                                  P1   P2    P3   P4
   ------------------------------ ---- ----- ---- ----
