@@ -321,7 +321,7 @@ index 8d3d8c0..7f5127e 100755
 
 The main difference in this version is that each process creates its own list of sieving primes. This removes the need to broadcast to other processes.
 
-Part 3
+Part 4
 ------
 
 > (5 points) Benchmark the performance of the three versions on the Rushmore cluster using different number of processors and fill the table below. Does the Benchmark results meet your expectation? Why?
