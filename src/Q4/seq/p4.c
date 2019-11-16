@@ -1,8 +1,6 @@
-
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #define NRA 620                 /* number of rows in matrix A */
 #define NCA 150                 /* number of columns in matrix A */
@@ -31,7 +29,7 @@ chunk = 10;                    /* set loop iteration chunk size */
     for (j=0; j<NCB; j++)
       c[i][j]= 0;
 
-  clock_t begin = clock();
+  double begin = omp_get_wtime();
 
   for (i=0; i<NRA; i++)
     {
@@ -40,8 +38,7 @@ chunk = 10;                    /* set loop iteration chunk size */
         c[i][j] += a[i][k] * b[k][j];
     }
 
-  clock_t end = clock();
-  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  double time_spent = (double)(omp_get_wtime() - begin);
 
 /*** Print results ***/
 printf("******************************************************\n");

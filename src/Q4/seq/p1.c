@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <time.h>
+#include <omp.h>
 #define INTERVALS 1000000
 
 int main(int arc, char* argv[])
@@ -11,7 +11,7 @@ int main(int arc, char* argv[])
 
 	ysum = 0.0;
 
-  clock_t begin = clock();
+  double begin = omp_get_wtime();
 
 	for (i=0; i < INTERVALS; i++)
 	{
@@ -21,7 +21,7 @@ int main(int arc, char* argv[])
 
 	area = ysum * (1.0/INTERVALS);
 
-  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+  double time_spent = (double)(omp_get_wtime() - begin);
 
 	printf("pi is %13.11f\n", area);
 

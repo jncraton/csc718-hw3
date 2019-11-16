@@ -29,7 +29,7 @@ double	a[NRA][NCA],           /* matrix A to be multiplied */
 
   omp_set_num_threads(4);
 
-  clock_t begin = clock();
+  double begin = omp_get_wtime();
 
   #pragma omp parallel for schedule(static,1)
   for (i=0; i<NRA; i+=2) {
@@ -43,7 +43,7 @@ double	a[NRA][NCA],           /* matrix A to be multiplied */
     }
   }
 
-  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+  double time_spent = (double)(omp_get_wtime() - begin);
 
   {
 

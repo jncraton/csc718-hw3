@@ -15,7 +15,7 @@ int main(int arc, char* argv[])
 
   omp_set_num_threads(4);
 
-  clock_t begin = clock();
+  double begin = omp_get_wtime();
 
   #pragma omp parallel \
   shared ( ysum ) \
@@ -30,7 +30,7 @@ int main(int arc, char* argv[])
 
 	area = ysum * (1.0/INTERVALS);
 
-  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+  double time_spent = (double)(omp_get_wtime() - begin);
 
 	printf("pi is %13.11f\n", area);
   printf ("Time: %f\n", time_spent);

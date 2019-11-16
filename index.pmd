@@ -509,12 +509,12 @@ The included makefile includes a check to verify that openmp versions of program
 
 Reported times are the real time averages from those commands. I've used 4 threads for the multithreaded testing. It should be noted that the testing for individual problems was done on the same systems, but I didn't use the same system for all problems.
 
-                                 P1   P2   P3   P4
-  ------------------------------ ---- ---- ---- ----
-  Sequential code running time   .017 .008 .80  .0046             
-  openMP running time            .007 .005 .44  .0023           
-  Speed up                       2.4x 1.6x 1.8x 2x          
-  No. of threads                 4    4    4    4   
+                                 P1   P2    P3   P4
+  ------------------------------ ---- ----- ---- ----
+  Sequential code running time   .017 .0012 .12  .0034             
+  openMP running time            .007 .0006 .08  .0014           
+  Speed up                       2.4x 2x    1.5x 2.4x          
+  No. of threads                 4    4     4    4   
 
 
 Due: Nov 19, by Midnight 2019

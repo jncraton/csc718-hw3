@@ -1,9 +1,7 @@
-
 #include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <time.h>
 
 int main (int argc, char *argv[])
 {
@@ -17,12 +15,12 @@ int main (int argc, char *argv[])
 
 	sum = 0.0;
 
-  clock_t begin = clock();
+  double begin = omp_get_wtime();
 
   	for (i=0; i < n; i++)
 		sum = sum + (a[i] * b[i]*b[i]*b[i]);
 
-  double time_spent = (double)(clock() - begin) / CLOCKS_PER_SEC;
+  double time_spent = (double)(omp_get_wtime() - begin);
 
 	printf("   Sum = %f\n",sum);
   printf ("Time: %f\n", time_spent);
