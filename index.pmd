@@ -336,6 +336,8 @@ I've completed trial runs using primes up to 100,000,000
 
 I can't say I was expecting these results, but I think I can understand why they happen to a certain extent. Similar performance when Np=1 makes sense. From there, we do worse as we are paying a communication cost for multiprocessing. We begin to see benefit at Np=3 and real benefit at Np=4.
 
+It is a little strange to not see much difference between these implementation, but it makes sense if this problem is memory bound rather than compute bound. It doesn't seem to matter much how many numbers we need to mark or count. It seems to matter more how many cache lines we have to load and store to RAM. Let's explore improving this in the bonus section.
+
 Bonus
 -----
 
@@ -391,11 +393,11 @@ Here are the performance numbers:
   sieve3.c   4.0    5.7    3.8    2.9
   sieve4.c   1.8    1.9    1.3    0.8
 
-That gives us better than a 3x boost. Np=1 outperforms previous algorithms with Np=4.
+That gives us better than a 3x boost. A single host can now outperform 4 hosts using the previous algorithms, but I think we can still do better.
 
 ### Ignore even numbers
 
-We can do a little better on memory performance still. We are storing all the even numbers in RAM even though we know they are not prime. We can adjust our program to not store evens at all. This will save RAM and allow us to increase our block size.
+We can do a little better on memory performance. We are storing all the even numbers in RAM even though we know they are not prime. We can adjust our program to not store evens at all. This will save RAM and allow us to increase our block size.
 
 Here are the performance numbers:
 
@@ -470,7 +472,7 @@ Part 2
 
 These two ways of programming differ in a number of ways. Perhaps the most significant is the way that memory is treated. MPI programming acknowledges that discrete hosts in a modern supercomputing system have their own memory and CPU that will perform best locally. This is known as a non-uniform memory architecture (NUMA). MPI provides an API to easily orchestrate these machines into a group and efficiently share data between them as needed.
 
-OpenMP is designed around the concept of shared memory, as we see in more traditional monolithic computer systems. It often makes it very easy to change sequential code into parallel code.
+OpenMP is designed around the concept of shared memory, as we see in more traditional monolithic computer systems. It often makes it very easy to change sequential code into parallel code. OpenMP makes it very quick and simple to transform sequential code into paralell code.
 
 It's hard for me to say which I like better. I've spent more time with MPI, and I like the power that it gives me to run code across a number of hosts. However, most of the time I'm not writing code for a supercomputer. Instead, I'm writing code for my mulitcore workstation, or perhaps a single server multicore server. In that case, I'd prefer to use OpenMP in order to get the cleaner shared memory interface. If I'm working with a network of mulitcore systems, it would also be beneficial to use both.
 
